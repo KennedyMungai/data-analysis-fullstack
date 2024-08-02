@@ -3,6 +3,7 @@ import { Montserrat as FontSans } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { ClerkProvider } from '@clerk/nextjs'
+import QueryProvider from '@/providers/query-provider'
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -23,7 +24,9 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en'>
 				<body className={fontSans.className}>
-					<ThemeProvider>{children}</ThemeProvider>
+					<ThemeProvider>
+						<QueryProvider>{children}</QueryProvider>
+					</ThemeProvider>
 				</body>
 			</html>
 		</ClerkProvider>
