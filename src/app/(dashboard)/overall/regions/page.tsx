@@ -11,11 +11,9 @@ const Regions = ({ params: { regionId } }: Props) => {
 	return (
 		<div className='w-full'>
 			{/* TODO: Add specific region name */}
-			<TopBar title={'Region Name'} />
+			<TopBar title={'Regions'} />
 			<div className='h-[90vh] p-4'>
-				<ScrollArea className='bg-rose-500 h-full'>
-					<div className='flex flex-col gap-4'></div>
-				</ScrollArea>
+				<ScrollArea className='bg-rose-500 h-full'></ScrollArea>
 			</div>
 		</div>
 	)

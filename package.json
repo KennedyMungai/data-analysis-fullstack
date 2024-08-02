@@ -34,7 +34,8 @@
     "react-countup": "^6.5.3",
     "react-dom": "^18",
     "tailwind-merge": "^2.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.51.15",

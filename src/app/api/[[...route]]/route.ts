@@ -11,3 +11,5 @@ export const POST = handle(app)
 export const PATCH = handle(app)
 export const PUT = handle(app)
 export const DELETE = handle(app)
+
+export type AppType = typeof app
