@@ -29,7 +29,8 @@ export type RegionsSchema = z.infer<typeof regionsSchema>
 export const stores = pgTable('stores', {
 	storeId: uuid('store_id').defaultRandom().primaryKey().notNull(),
 	storeName: text('store_name').notNull(),
-	storeLocation: point('store_location'),
+	// TODO: Find a way to store location data in the database
+	// storeLocation: point('store_location'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').$onUpdateFn(() => new Date()),
 
