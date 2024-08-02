@@ -21,4 +21,6 @@ export const useCreateRegion = () => {
 		},
 		onError: () => toast.error('Failed to create region')
 	})
+
+    return mutation
 }

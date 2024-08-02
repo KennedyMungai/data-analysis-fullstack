@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card'
 import { useNewRegionState } from '@/features/regions/hooks/use-new-region-state'
 import { PlusIcon } from 'lucide-react'
 
-const NewRegionCard = () => {
+const AddRegionCard = () => {
 	const { onOpen } = useNewRegionState()
 
 	return (
@@ -17,4 +17,4 @@ const NewRegionCard = () => {
 	)
 }
 
-export default NewRegionCard
+export default AddRegionCard
