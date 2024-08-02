@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import { Montserrat as FontSans } from 'next/font/google'
-import './globals.css'
+import { Toaster } from '@/components/ui/sonner'
+import QueryProvider from '@/providers/query-provider'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { ClerkProvider } from '@clerk/nextjs'
-import QueryProvider from '@/providers/query-provider'
+import type { Metadata } from 'next'
+import { Montserrat as FontSans } from 'next/font/google'
+import './globals.css'
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -25,7 +26,10 @@ export default function RootLayout({
 			<html lang='en'>
 				<body className={fontSans.className}>
 					<ThemeProvider>
-						<QueryProvider>{children}</QueryProvider>
+						<QueryProvider>
+							{children}
+							<Toaster />
+						</QueryProvider>
 					</ThemeProvider>
 				</body>
 			</html>

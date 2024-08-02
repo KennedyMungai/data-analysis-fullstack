@@ -9,12 +9,15 @@
 			"clsx",
 			"countup",
 			"Hono",
+			"hookform",
 			"lucide",
 			"neondatabase",
 			"nextjs",
+			"sonner",
 			"tailwindcss",
 			"tanstack",
-			"trpc"
+			"trpc",
+			"zustand"
 		]
 	}
 }

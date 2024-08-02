@@ -1,13 +1,14 @@
-import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs'
-import { currentUser } from '@clerk/nextjs/server'
+'use client'
+
+import { ClerkLoaded, ClerkLoading, UserButton, useUser } from '@clerk/nextjs'
 import { Loader2Icon } from 'lucide-react'
 
 type Props = {
 	title: string
 }
 
-const TopBar = async ({ title }: Props) => {
-	const user = await currentUser()
+const TopBar = ({ title }: Props) => {
+	const { user } = useUser()
 
 	return (
 		<div className='flex items-center justify-between w-full h-20 px-4 border-b'>
