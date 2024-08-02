@@ -5,6 +5,13 @@
 		}
 	],
 	"settings": {
-		"cSpell.words": ["clsx", "lucide", "nextjs", "tailwindcss", "trpc"]
+		"cSpell.words": [
+			"clsx",
+			"countup",
+			"lucide",
+			"nextjs",
+			"tailwindcss",
+			"trpc"
+		]
 	}
 }

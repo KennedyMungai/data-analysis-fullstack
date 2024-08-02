@@ -13,7 +13,7 @@ const Sidebar = () => {
 					alt='logo'
 					width={100}
 					height={100}
-					className='dark:bg-white/50 m-2 rounded-lg'
+					className='dark:bg-white m-2 rounded-lg'
 				/>
 			</Link>
 			<ModeToggle />
