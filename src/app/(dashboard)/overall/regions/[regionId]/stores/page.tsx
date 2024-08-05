@@ -2,6 +2,7 @@
 
 import TopBar from '@/components/top-bar'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useFetchRegion } from '@/features/regions/api/use-fetch-region'
 import { useFetchStores } from '@/features/stores/api/use-fetch-stores'
 import AddStoreCard from '@/features/stores/components/add-store-card'
 import AddStoreSheet from '@/features/stores/components/add-store-sheet'
@@ -16,6 +17,7 @@ const StoresPage = () => {
 	const regionId = pathname.split('/')[3]
 
 	const { data: stores, isPending, isError } = useFetchStores(regionId)
+	const { data: region } = useFetchRegion(regionId)
 
 	if (isPending) <div>Loading...</div>
 
@@ -25,7 +27,7 @@ const StoresPage = () => {
 		<>
 			<div className='w-full'>
 				{/* TODO: Add specific region name */}
-				<TopBar title={'Stores'} />
+				<TopBar title={`${region?.name} Stores`} />
 				<div className='h-[90vh] p-4'>
 					<ScrollArea className='h-full'>
 						<div className='flex flex-wrap items-center justify-center h-full gap-4'>
