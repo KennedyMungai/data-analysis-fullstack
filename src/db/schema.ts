@@ -12,7 +12,7 @@ import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 export const regions = pgTable('regions', {
-	regionId: uuid('region_id').defaultRandom().primaryKey().notNull(),
+	regionId: uuid('region_id').defaultRandom().primaryKey(),
 	regionName: text('region_name').notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').$onUpdateFn(() => new Date())
@@ -27,7 +27,7 @@ export const regionsSchema = createInsertSchema(regions)
 export type RegionsSchema = z.infer<typeof regionsSchema>
 
 export const stores = pgTable('stores', {
-	storeId: uuid('store_id').defaultRandom().primaryKey().notNull(),
+	storeId: uuid('store_id').defaultRandom().primaryKey(),
 	storeName: text('store_name').notNull(),
 	// TODO: Find a way to store location data in the database
 	// storeLocation: point('store_location'),
@@ -52,10 +52,7 @@ export const storesSchema = createInsertSchema(stores)
 export type StoresSchema = z.infer<typeof storesSchema>
 
 export const storeSections = pgTable('store_sections', {
-	storeSectionId: uuid('store_section_id')
-		.defaultRandom()
-		.primaryKey()
-		.notNull(),
+	storeSectionId: uuid('store_section_id').defaultRandom().primaryKey(),
 	storeSectionName: text('store_section_name').notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').$onUpdateFn(() => new Date()),
@@ -80,7 +77,7 @@ export const storeSectionsSchema = createInsertSchema(storeSections)
 export type StoreSectionsSchema = z.infer<typeof storeSectionsSchema>
 
 export const incidents = pgTable('incidents', {
-	incidentId: uuid('incident_id').defaultRandom().primaryKey().notNull(),
+	incidentId: uuid('incident_id').defaultRandom().primaryKey(),
 	incidentDescription: text('incident_description').notNull(),
 	employeeName: text('employee_name').notNull(),
 	productName: text('product_name'),

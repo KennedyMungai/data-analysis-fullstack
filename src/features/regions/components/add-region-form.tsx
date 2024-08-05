@@ -32,11 +32,13 @@ const AddRegionForm = () => {
 
 	const { onClose } = useNewRegionState()
 
-	const { mutate, isPending } = useCreateRegion()
+	const { mutate, isPending, error } = useCreateRegion()
 
 	const handleSubmit = async (values: FormValues) => {
 		mutate(values, { onSuccess: () => onClose() })
 		form.reset()
+
+		console.log(error)
 	}
 
 	return (

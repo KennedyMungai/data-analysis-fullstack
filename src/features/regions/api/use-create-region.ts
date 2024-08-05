@@ -19,7 +19,10 @@ export const useCreateRegion = () => {
 			queryClient.invalidateQueries({ queryKey: ['regions'] })
 			toast.success('Region created')
 		},
-		onError: () => toast.error('Failed to create region')
+		onError: (error: any) => {
+			toast.error('Failed to create region')
+			console.log(error)
+		}
 	})
 
     return mutation

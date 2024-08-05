@@ -17,7 +17,7 @@ const AddRegionSheet = () => {
 			<SheetHeader>
 				<SheetTitle>Create a new region</SheetTitle>
 			</SheetHeader>
-			<SheetContent>
+			<SheetContent aria-describedby='Create a new region'>
 				<AddRegionForm />
 			</SheetContent>
 		</Sheet>

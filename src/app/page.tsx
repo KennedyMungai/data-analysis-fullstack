@@ -22,7 +22,7 @@ const HomePage = () => {
 				<Link href='/overall'>
 					<Button
 						variant={'outline'}
-						className='dark:border-white dark:hover:bg-white dark:text-white w-40 text-white bg-transparent'
+						className='dark:border-white dark:hover:bg-white dark:text-white w-40 hover:text-black dark:hover:text-black text-white bg-transparent'
 					>
 						Get Started
 					</Button>
