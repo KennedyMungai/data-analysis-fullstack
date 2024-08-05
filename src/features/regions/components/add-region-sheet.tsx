@@ -6,7 +6,7 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
-import { useNewRegionState } from '../hooks/use-new-region-state'
+import { useNewRegionState } from '@/features/regions/hooks/use-new-region-state'
 import AddRegionForm from './add-region-form'
 
 const AddRegionSheet = () => {

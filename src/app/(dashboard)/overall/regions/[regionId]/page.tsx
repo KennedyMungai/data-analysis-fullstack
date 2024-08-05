@@ -5,15 +5,14 @@ import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 import { useFetchRegion } from '@/features/regions/api/use-fetch-region'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
-type Props = {}
+type Props = {
+	params: {
+		regionId: string
+	}
+}
 
-const RegionPage = () => {
-	const pathname = usePathname()
-
-	const regionId = pathname.split('/').pop()
-
+const RegionPage = ({ params: { regionId } }: Props) => {
 	const { data: region, isPending, isError } = useFetchRegion(regionId)
 
 	if (isPending) {
