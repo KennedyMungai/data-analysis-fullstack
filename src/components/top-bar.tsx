@@ -4,7 +4,7 @@ import { ClerkLoaded, ClerkLoading, UserButton, useUser } from '@clerk/nextjs'
 import { Loader2Icon } from 'lucide-react'
 
 type Props = {
-	title: string
+	title: string | undefined
 }
 
 const TopBar = ({ title }: Props) => {

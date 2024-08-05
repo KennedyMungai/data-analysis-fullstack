@@ -2,7 +2,7 @@ import { db } from '@/db/drizzle'
 import { stores, storesSchema } from '@/db/schema'
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
 import { zValidator } from '@hono/zod-validator'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 
@@ -26,7 +26,7 @@ const app = new Hono()
 		}
 	)
 	.get(
-		'/:storeId',
+		'/store/:storeId',
 		clerkMiddleware(),
 		zValidator('param', z.object({ storeId: z.string() })),
 		async (c) => {
