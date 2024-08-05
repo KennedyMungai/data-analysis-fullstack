@@ -1,16 +1,22 @@
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import Link from 'next/link'
 
 type Props = {
 	title: string
+	regionId: string
 }
 
-const RegionCard = ({ title }: Props) => {
+const RegionCard = ({ title, regionId }: Props) => {
 	return (
-		<Card className='h-80 w-56'>
-			<CardHeader>
-				<CardTitle>{title}</CardTitle>
-			</CardHeader>
-		</Card>
+		<Link href={`/overall/regions/${regionId}`}>
+			<Card className='h-80 w-56'>
+				<CardHeader>
+					<CardTitle className='text-center text-3xl'>
+						{title}
+					</CardTitle>
+				</CardHeader>
+			</Card>
+		</Link>
 	)
 }
 

@@ -25,10 +25,11 @@ const Regions = () => {
 				<TopBar title={'Regions'} />
 				<div className='h-[90vh] p-4'>
 					<ScrollArea className='h-full'>
-						<div className='flex flex-wrap items-center justify-center h-full'>
+						<div className='flex flex-wrap items-center justify-center h-full gap-4'>
 							{regions?.map((region) => (
 								<RegionCard
 									title={region.name}
+									regionId={region.id}
 									key={region.id}
 								/>
 							))}
