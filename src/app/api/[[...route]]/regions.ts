@@ -33,7 +33,7 @@ const app = new Hono()
 			const [data] = await db
 				.select({ id: regions.regionId, name: regions.regionName })
 				.from(regions)
-				.where(and(eq(regions.regionId, regionId)))
+				.where(eq(regions.regionId, regionId))
 
 			if (!data) return c.json({ error: 'Not Found' }, 404)
 
