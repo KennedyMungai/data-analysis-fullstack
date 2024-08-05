@@ -4,6 +4,7 @@ import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 import AddIncidentModal from '@/features/incidents/components/add-incident-modal'
+import { useNewIncidentState } from '@/features/incidents/hooks/use-new-incident-state'
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
 import { useFetchStoreSection } from '@/features/storeSections/api/use-fetch-store-section'
 import { useUser } from '@clerk/nextjs'
@@ -17,6 +18,8 @@ type Props = {
 
 const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 	const { user, isSignedIn } = useUser()
+
+	const { onOpen } = useNewIncidentState()
 
 	const pathname = usePathname()
 
@@ -50,7 +53,11 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 							Date Picker
 						</Button>
 
-						<Button variant={'outline'} className='bg-transparent'>
+						<Button
+							variant={'outline'}
+							className='bg-transparent'
+							onClick={onOpen}
+						>
 							Add Incident
 						</Button>
 						<div />
