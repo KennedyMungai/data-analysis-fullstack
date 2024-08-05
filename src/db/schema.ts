@@ -81,6 +81,7 @@ export const incidents = pgTable('incidents', {
 	incidentDescription: text('incident_description').notNull(),
 	employeeName: text('employee_name').notNull(),
 	productName: text('product_name'),
+	productCode: text('product_code'),
 	productQuantity: integer('product_quantity'),
 	productPrice: decimal('product_price'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
