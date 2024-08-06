@@ -1,10 +1,14 @@
 'use client'
 
+import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 import { useFetchRegion } from '@/features/regions/api/use-fetch-region'
+import { subDays } from 'date-fns'
 import Link from 'next/link'
+import { useState } from 'react'
+import { DateRange } from 'react-day-picker'
 
 type Props = {
 	params: {
@@ -14,6 +18,13 @@ type Props = {
 
 const RegionPage = ({ params: { regionId } }: Props) => {
 	const { data: region, isPending, isError } = useFetchRegion(regionId)
+
+	const initialRange: DateRange = {
+		from: subDays(new Date(), 7),
+		to: new Date()
+	}
+
+	const [range, setRange] = useState<DateRange | undefined>(initialRange)
 
 	if (isPending) {
 		return <div>Loading...</div>
@@ -28,9 +39,7 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 			<TopBar title={region.name} />
 			<div className='gap-y-4 flex flex-col flex-1 p-2'>
 				<div className='flex justify-between px-4'>
-					<Button className='bg-transparent' variant={'outline'}>
-						Date Picker
-					</Button>
+					<DateFilter range={range} setRange={setRange} />
 					<Link href={`/overall/regions/${regionId}/stores`}>
 						<Button variant={'outline'} className='bg-transparent'>
 							Stores

@@ -1,5 +1,6 @@
 'use client'
 
+import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
@@ -11,7 +12,10 @@ import { useNewIncidentState } from '@/features/incidents/hooks/use-new-incident
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
 import { useFetchStoreSection } from '@/features/storeSections/api/use-fetch-store-section'
 import { useUser } from '@clerk/nextjs'
+import { subDays } from 'date-fns'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
+import { DateRange } from 'react-day-picker'
 
 type Props = {
 	params: {
@@ -28,6 +32,13 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 
 	const regionId = pathname.split('/')[3]
 	const storeId = pathname.split('/')[5]
+
+	const initialRange: DateRange = {
+		from: subDays(new Date(), 7),
+		to: new Date()
+	}
+
+	const [range, setRange] = useState<DateRange | undefined>(initialRange)
 
 	const {
 		data: storeSection,
@@ -58,9 +69,7 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 				<TopBar title={`${store?.name} ${storeSection?.name}`} />
 				<div className='gap-y-4 flex flex-col flex-1 p-2'>
 					<div className='flex justify-between px-4'>
-						<Button className='bg-transparent' variant={'outline'}>
-							Date Picker
-						</Button>
+						<DateFilter range={range} setRange={setRange} />
 
 						<Button
 							variant={'outline'}

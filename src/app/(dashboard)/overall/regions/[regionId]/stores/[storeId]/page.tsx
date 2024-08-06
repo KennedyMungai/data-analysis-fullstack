@@ -1,11 +1,15 @@
 'use client'
 
+import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
+import { subDays } from 'date-fns'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
+import { DateRange } from 'react-day-picker'
 
 type Props = {
 	params: {
@@ -20,6 +24,13 @@ const StorePage = ({ params: { storeId } }: Props) => {
 
 	const { data: store, isError, isPending } = useFetchStore(storeId)
 
+	const initialRange: DateRange = {
+		from: subDays(new Date(), 7),
+		to: new Date()
+	}
+
+	const [range, setRange] = useState<DateRange | undefined>(initialRange)
+
 	if (isPending) <div>Loading...</div>
 
 	if (isError) <div>Something went wrong</div>
@@ -29,9 +40,7 @@ const StorePage = ({ params: { storeId } }: Props) => {
 			<TopBar title={store?.name} />
 			<div className='gap-y-4 flex flex-col flex-1 p-2'>
 				<div className='flex justify-between px-4'>
-					<Button className='bg-transparent' variant={'outline'}>
-						Date Picker
-					</Button>
+					<DateFilter range={range} setRange={setRange} />
 					<Link
 						href={`/overall/regions/${regionId}/stores/${storeId}/storeSections`}
 					>
