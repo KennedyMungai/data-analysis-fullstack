@@ -26,19 +26,19 @@ const AddIncidentModal = ({
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogHeader>
-				<DialogTitle>Add a new incident</DialogTitle>
-				<DialogDescription>
+				<DialogTitle hidden>Add a new incident</DialogTitle>
+				<DialogDescription hidden>
 					Fill out the form to add a new incident
 				</DialogDescription>
-				<DialogContent>
-					<AddIncidentForm
-						regionId={regionId}
-						storeId={storeId}
-						storeSectionId={storeSectionId}
-						employeeName={employeeName}
-					/>
-				</DialogContent>
 			</DialogHeader>
+			<DialogContent>
+				<AddIncidentForm
+					regionId={regionId}
+					storeId={storeId}
+					storeSectionId={storeSectionId}
+					employeeName={employeeName}
+				/>
+			</DialogContent>
 		</Dialog>
 	)
 }

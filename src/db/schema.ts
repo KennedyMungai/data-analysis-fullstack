@@ -83,7 +83,7 @@ export const incidents = pgTable('incidents', {
 	productName: text('product_name'),
 	productCode: text('product_code'),
 	productQuantity: integer('product_quantity'),
-	productPrice: decimal('product_price'),
+	productPrice: integer('product_price'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').$onUpdateFn(() => new Date()),
 

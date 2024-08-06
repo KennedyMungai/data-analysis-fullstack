@@ -43,7 +43,7 @@ const AddIncidentForm = ({
 			incidentDescription: '',
 			productCode: '',
 			productName: '',
-			productPrice: '',
+			productPrice: 0,
 			productQuantity: 0,
 			employeeName,
 			regionId,
@@ -54,17 +54,30 @@ const AddIncidentForm = ({
 
 	const { onClose } = useNewIncidentState()
 
-	const { mutate, isPending } = useCreateIncident(storeSectionId)
+	const { mutate, isPending, error } = useCreateIncident(storeSectionId)
 
 	const handleSubmit = async (values: FormValues) => {
-		mutate(values, { onSuccess: () => onClose() })
+		console.log(values)
+
+		console.log(error)
+		mutate(
+			{
+				productPrice: Number(values.productPrice),
+				productQuantity: Number(values.productQuantity),
+				...values
+			},
+			{ onSuccess: () => onClose() }
+		)
 
 		form.reset()
 	}
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(handleSubmit)}>
+			<form
+				onSubmit={form.handleSubmit(handleSubmit)}
+				className='flex flex-col gap-y-2'
+			>
 				<FormField
 					name='incidentDescription'
 					control={form.control}
@@ -74,7 +87,7 @@ const AddIncidentForm = ({
 							<FormDescription>
 								A descriptive account of the incident
 							</FormDescription>
-							<Textarea {...field} />
+							<Textarea {...field} className='mt-2' />
 							<FormMessage />
 						</FormItem>
 					)}
@@ -103,6 +116,7 @@ const AddIncidentForm = ({
 								The name of the item involved
 							</FormDescription>
 							<Input {...field} />
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -116,6 +130,7 @@ const AddIncidentForm = ({
 								The quantity of the item
 							</FormDescription>
 							<Input type='number' {...field} />
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -128,14 +143,15 @@ const AddIncidentForm = ({
 							<FormDescription>
 								The price of the item
 							</FormDescription>
-							<Input {...field} />
+							<Input {...field} type='number' />
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
+				<Button className='self-end mt-6' disabled={isPending}>
+					Report Incident
+				</Button>
 			</form>
-			<Button className='self-end mt-6' disabled={isPending}>
-				Create
-			</Button>
 		</Form>
 	)
 }

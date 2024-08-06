@@ -3,7 +3,10 @@
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
+import { useFetchIncidents } from '@/features/incidents/api/use-fetch-incidents'
 import AddIncidentModal from '@/features/incidents/components/add-incident-modal'
+import { columns } from '@/features/incidents/components/columns'
+import { DataTable } from '@/features/incidents/components/data-table'
 import { useNewIncidentState } from '@/features/incidents/hooks/use-new-incident-state'
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
 import { useFetchStoreSection } from '@/features/storeSections/api/use-fetch-store-section'
@@ -38,6 +41,12 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 		isError: isStoreError
 	} = useFetchStore(storeId)
 
+	const {
+		data: incidents,
+		isError: isIncidentError,
+		isPending: isIncidentPending
+	} = useFetchIncidents(storeSectionId)
+
 	if (isStoreSectionPending || isStorePending) <div>Loading...</div>
 
 	if (isStoreSectionError || isStoreError || isSignedIn === false)
@@ -67,7 +76,7 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 						<SummaryCard label='Overall' value={10} />
 						<SummaryCard label='Overall' value={10} />
 					</div>
-					{/* TODO: Add Charts for the data */}
+					<DataTable columns={columns} data={incidents} />
 				</div>
 			</div>
 			<AddIncidentModal

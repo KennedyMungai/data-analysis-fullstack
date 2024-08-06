@@ -13,7 +13,10 @@ const app = new Hono()
 		if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
 
 		const data = await db
-			.select({ id: regions.regionId, name: regions.regionName })
+			.select({
+				id: regions.regionId,
+				name: regions.regionName
+			})
 			.from(regions)
 
 		return c.json({ data })
