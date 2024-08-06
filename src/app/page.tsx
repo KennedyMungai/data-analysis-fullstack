@@ -9,7 +9,7 @@ const HomePage = () => {
 			<div className='gap-y-4 flex flex-col items-center justify-center'>
 				<div className='gap-x-4 flex items-center'>
 					<Image
-						src='/logo.png'
+						src='/logo.svg'
 						alt='logo'
 						width={120}
 						height={120}
