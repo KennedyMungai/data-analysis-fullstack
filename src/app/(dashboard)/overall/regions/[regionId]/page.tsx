@@ -80,6 +80,7 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 				<DataChart
 					label={`${region.regionName} Incidents`}
 					data={region.incidents}
+					range={range as DateRange}
 				/>
 			</div>
 		</div>

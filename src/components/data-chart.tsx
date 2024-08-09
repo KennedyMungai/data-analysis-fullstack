@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/chart'
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 import { IncidentsSchema, incidentsSchema } from '../db/schema'
+import { DateRange } from 'react-day-picker'
 
 type Props = {
 	label: string
@@ -32,6 +33,7 @@ type Props = {
 		productPrice: number | null
 		storeSectionId: string
 	}[]
+	range: DateRange
 }
 
 const chartConfig = {
@@ -41,7 +43,7 @@ const chartConfig = {
 	}
 } satisfies ChartConfig
 
-const DataChart = ({ label, data }: Props) => {
+const DataChart = ({ label, data, range }: Props) => {
 	return (
 		<Card className='my-4'>
 			<CardHeader>
@@ -72,7 +74,10 @@ const DataChart = ({ label, data }: Props) => {
 				</ChartContainer>
 			</CardContent>
 			<CardFooter>
-				<p className='text-xl font-semibold'>{label}</p>
+				<p className='text-xl font-semibold'>
+					{label} from {range.from?.toLocaleDateString()} to{' '}
+					{range!.to?.toLocaleDateString()}
+				</p>
 			</CardFooter>
 		</Card>
 	)
