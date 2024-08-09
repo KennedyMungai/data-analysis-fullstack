@@ -4,6 +4,7 @@ import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useFetchIncidents } from '@/features/incidents/api/use-fetch-incidents'
 import AddIncidentModal from '@/features/incidents/components/add-incident-modal'
 import { columns } from '@/features/incidents/components/columns'
@@ -58,8 +59,23 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 		isPending: isIncidentPending
 	} = useFetchIncidents(storeSectionId)
 
-	if (isStoreSectionPending || isStorePending || isIncidentPending)
-		<div>Loading...</div>
+	if (isStoreSectionPending || isStorePending || isIncidentPending);
+	;<div className='w-full'>
+		<TopBar title='Loading...' />
+		<div className='gap-y-4 flex flex-col flex-1 p-2'>
+			<div className='flex justify-between px-4'>
+				<Skeleton className='w-24 h-8' />
+				<Skeleton className='w-24 h-8' />
+				<div />
+			</div>
+			<div className='flex justify-between w-full'>
+				<Skeleton className='w-[25rem] h-[10rem]' />
+				<Skeleton className='w-[25rem] h-[10rem]' />
+				<Skeleton className='w-[25rem] h-[10rem]' />
+			</div>
+			<Skeleton className='w-full h-[60vh] mt-4' />
+		</div>
+	</div>
 
 	if (
 		isStoreSectionError ||
@@ -67,7 +83,22 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 		isIncidentError ||
 		isSignedIn === false
 	)
-		<div>Something went wrong</div>
+		;<div className='w-full'>
+			<TopBar title='Failed to fetch data' />
+			<div className='gap-y-4 flex flex-col flex-1 p-2'>
+				<div className='flex justify-between px-4'>
+					<Skeleton className='w-24 h-8' />
+					<Skeleton className='w-24 h-8' />
+					<div />
+				</div>
+				<div className='flex justify-between w-full'>
+					<Skeleton className='w-[25rem] h-[10rem]' />
+					<Skeleton className='w-[25rem] h-[10rem]' />
+					<Skeleton className='w-[25rem] h-[10rem]' />
+				</div>
+				<Skeleton className='w-full h-[60vh] mt-4' />
+			</div>
+		</div>
 
 	return (
 		<>
