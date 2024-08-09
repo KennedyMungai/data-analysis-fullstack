@@ -7,6 +7,7 @@ import { useFetchStores } from '@/features/stores/api/use-fetch-stores'
 import AddStoreCard from '@/features/stores/components/add-store-card'
 import AddStoreSheet from '@/features/stores/components/add-store-sheet'
 import StoreCard from '@/features/stores/components/store-card'
+import { subDays } from 'date-fns'
 import { usePathname } from 'next/navigation'
 
 type Props = {}
@@ -17,7 +18,10 @@ const StoresPage = () => {
 	const regionId = pathname.split('/')[3]
 
 	const { data: stores, isPending, isError } = useFetchStores(regionId)
-	const { data: region } = useFetchRegion(regionId)
+	const { data: region } = useFetchRegion(
+		{ from: subDays(new Date(), 7) },
+		regionId
+	)
 
 	if (isPending) <div>Loading...</div>
 
@@ -27,7 +31,7 @@ const StoresPage = () => {
 		<>
 			<div className='w-full'>
 				{/* TODO: Add specific region name */}
-				<TopBar title={`${region?.name} Stores`} />
+				<TopBar title={`${region?.regionName} Stores`} />
 				<div className='h-[90vh] p-4'>
 					<ScrollArea className='h-full'>
 						<div className='flex flex-wrap items-center justify-center h-full gap-4'>
