@@ -41,7 +41,12 @@ const app = new Hono()
 			if (!regionData) return c.json({ error: 'Not Found' }, 404)
 
 			const incidentsData = await db
-				.select()
+				.select({
+					id: incidents.incidentId,
+					price: incidents.productPrice,
+					quantity: incidents.productQuantity,
+					name: incidents.productName
+				})
 				.from(incidents)
 				.where(eq(incidents.regionId, regionId))
 

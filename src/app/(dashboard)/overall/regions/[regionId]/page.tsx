@@ -1,5 +1,6 @@
 'use client'
 
+import DataChart from '@/components/data-chart'
 import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
@@ -53,7 +54,10 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 					<SummaryCard label='Overall' value={10} />
 					<SummaryCard label='Overall' value={10} />
 				</div>
-				{/* TODO: Add Charts for the data */}
+				<DataChart
+					label={`${region.name} Incidents`}
+					data={region.incidentsData}
+				/>
 			</div>
 		</div>
 	)
