@@ -35,6 +35,14 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 		return <div>Something went wrong</div>
 	}
 
+	const totalValue = region.incidentsData.reduce(
+		(total, incident) =>
+			total + Number(incident.quantity) * Number(incident.price),
+		0
+	)
+
+	const totalIncidents = region.incidentsData.length
+
 	return (
 		<div className='w-full'>
 			<TopBar title={region.name} />
@@ -50,9 +58,18 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 					<div />
 				</div>
 				<div className='flex justify-between w-full'>
-					<SummaryCard label='Overall' value={10} />
-					<SummaryCard label='Overall' value={10} />
-					<SummaryCard label='Overall' value={10} />
+					<SummaryCard
+						label='Total Value of Incidents'
+						value={totalValue}
+					/>
+					<SummaryCard
+						label='Total No. Of Incidents'
+						value={totalIncidents}
+					/>
+					<SummaryCard
+						label='Average Value of Incidents'
+						value={Math.floor(totalValue / totalIncidents)}
+					/>
 				</div>
 				<DataChart
 					label={`${region.name} Incidents`}
