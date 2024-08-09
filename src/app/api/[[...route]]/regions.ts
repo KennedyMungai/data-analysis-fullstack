@@ -1,5 +1,5 @@
 import { db } from '@/db/drizzle'
-import { regions, regionsSchema } from '@/db/schema'
+import { incidents, regions, regionsSchema } from '@/db/schema'
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
 import { zValidator } from '@hono/zod-validator'
 import { and, eq } from 'drizzle-orm'
@@ -33,12 +33,19 @@ const app = new Hono()
 
 			if (!regionId) return c.json({ error: 'Bad Request' }, 400)
 
-			const [data] = await db
+			const [regionData] = await db
 				.select({ id: regions.regionId, name: regions.regionName })
 				.from(regions)
 				.where(eq(regions.regionId, regionId))
 
-			if (!data) return c.json({ error: 'Not Found' }, 404)
+			if (!regionData) return c.json({ error: 'Not Found' }, 404)
+
+			const incidentsData = await db
+				.select()
+				.from(incidents)
+				.where(eq(incidents.regionId, regionId))
+
+			const data = { ...regionData, incidentsData }
 
 			return c.json({ data })
 		}
