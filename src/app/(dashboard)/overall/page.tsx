@@ -1,9 +1,11 @@
 'use client'
 
+import DataChart from '@/components/data-chart'
 import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
+import { useFetchRegions } from '@/features/regions/api/use-fetch-regions'
 import { subDays } from 'date-fns'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -16,6 +18,34 @@ const OverallPage = () => {
 	}
 
 	const [range, setRange] = useState<DateRange | undefined>(initialRange)
+
+	const {
+		data: regions,
+		isPending,
+		isError
+	} = useFetchRegions(range as DateRange)
+
+	if (isPending) <div>Loading...</div>
+
+	if (isError) <div>Error...</div>
+
+	const totalValue = regions?.reduce(
+		(total: number, region) =>
+			total +
+			region.incidents.reduce(
+				(total: number, incident) =>
+					total +
+					Number(incident.productQuantity) *
+						Number(incident.productPrice),
+				0
+			),
+		0
+	) as number
+
+	const totalIncidents = regions?.reduce(
+		(total: number, region) => total + region.incidents.length,
+		0
+	) as number
 
 	return (
 		<div className='w-full'>
@@ -31,11 +61,24 @@ const OverallPage = () => {
 					<div />
 				</div>
 				<div className='flex justify-between w-full'>
-					<SummaryCard label='Overall' value={10} />
-					<SummaryCard label='Overall' value={10} />
-					<SummaryCard label='Overall' value={10} />
+					<SummaryCard
+						label='Total Value of Incidents'
+						value={totalValue}
+					/>
+					<SummaryCard
+						label='Total No. Of Incidents'
+						value={totalIncidents}
+					/>
+					<SummaryCard
+						label='Average Value of Incidents'
+						value={Math.floor(totalValue / totalIncidents)}
+					/>
 				</div>
-				{/* TODO: Add Charts for the data */}
+				<DataChart
+					label={'Overall Data'}
+					data={[]}
+					range={range as DateRange}
+				/>
 			</div>
 		</div>
 	)

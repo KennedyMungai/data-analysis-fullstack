@@ -6,9 +6,16 @@ import { useFetchRegions } from '@/features/regions/api/use-fetch-regions'
 import NewRegionCard from '@/features/regions/components/add-region-card'
 import AddRegionSheet from '@/features/regions/components/add-region-sheet'
 import RegionCard from '@/features/regions/components/region-card'
+import { subDays } from 'date-fns'
 
 const Regions = () => {
-	const { data: regions, isLoading, isPending } = useFetchRegions()
+	const {
+		data: regions,
+		isLoading,
+		isPending
+	} = useFetchRegions({
+		from: subDays(new Date(), 7)
+	})
 
 	if (isLoading) {
 		return <div>Loading...</div>
@@ -28,9 +35,9 @@ const Regions = () => {
 						<div className='flex flex-wrap items-center justify-center h-full gap-4'>
 							{regions?.map((region) => (
 								<RegionCard
-									title={region.name}
-									regionId={region.id}
-									key={region.id}
+									title={region.regionName}
+									regionId={region.regionId}
+									key={region.regionId}
 								/>
 							))}
 							<NewRegionCard />

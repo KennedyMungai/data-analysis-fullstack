@@ -7,20 +7,29 @@ import { Hono } from 'hono'
 import { z } from 'zod'
 
 const app = new Hono()
-	.get('/', clerkMiddleware(), async (c) => {
-		const auth = getAuth(c)
+	.get(
+		'/:from/:to',
+		clerkMiddleware(),
+		zValidator(
+			'param',
+			z.object({ from: z.coerce.date(), to: z.coerce.date() })
+		),
+		async (c) => {
+			const auth = getAuth(c)
+			const { from, to } = c.req.valid('param')
 
-		if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
+			if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
 
-		const data = await db
-			.select({
-				id: regions.regionId,
-				name: regions.regionName
+			const data = await db.query.regions.findMany({
+				where: between(incidents.createdAt, from, to),
+				with: {
+					incidents: true
+				}
 			})
-			.from(regions)
 
-		return c.json({ data })
-	})
+			return c.json({ data })
+		}
+	)
 	.get(
 		'/:regionId/:from/:to',
 		zValidator(
