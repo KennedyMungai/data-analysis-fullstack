@@ -10,6 +10,7 @@ import { subDays } from 'date-fns'
 import Link from 'next/link'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
+import { incidents } from '@/db/schema'
 
 type Props = {
 	params: {
@@ -18,14 +19,18 @@ type Props = {
 }
 
 const RegionPage = ({ params: { regionId } }: Props) => {
-	const { data: region, isPending, isError } = useFetchRegion(regionId)
-
 	const initialRange: DateRange = {
 		from: subDays(new Date(), 7),
 		to: new Date()
 	}
 
 	const [range, setRange] = useState<DateRange | undefined>(initialRange)
+
+	const {
+		data: region,
+		isPending,
+		isError
+	} = useFetchRegion(range as DateRange, regionId)
 
 	if (isPending) {
 		return <div>Loading...</div>
@@ -35,17 +40,18 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 		return <div>Something went wrong</div>
 	}
 
-	const totalValue = region.incidentsData.reduce(
-		(total, incident) =>
-			total + Number(incident.quantity) * Number(incident.price),
+	const totalValue = region.incidents.reduce(
+		(total: number, incident) =>
+			total +
+			Number(incident.productQuantity) * Number(incident.productPrice),
 		0
 	)
 
-	const totalIncidents = region.incidentsData.length
+	const totalIncidents = region.incidents.length
 
 	return (
 		<div className='w-full'>
-			<TopBar title={region.name} />
+			<TopBar title={region.regionName} />
 			<div className='gap-y-4 flex flex-col flex-1 p-2'>
 				<div className='flex justify-between px-4'>
 					<DateFilter range={range} setRange={setRange} />
@@ -72,8 +78,8 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 					/>
 				</div>
 				<DataChart
-					label={`${region.name} Incidents`}
-					data={region.incidentsData}
+					label={`${region.regionName} Incidents`}
+					data={region.incidents}
 				/>
 			</div>
 		</div>

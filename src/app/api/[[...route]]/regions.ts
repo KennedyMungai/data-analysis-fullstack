@@ -2,7 +2,7 @@ import { db } from '@/db/drizzle'
 import { incidents, regions, regionsSchema } from '@/db/schema'
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
 import { zValidator } from '@hono/zod-validator'
-import { and, eq } from 'drizzle-orm'
+import { and, between, eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 
@@ -22,35 +22,35 @@ const app = new Hono()
 		return c.json({ data })
 	})
 	.get(
-		'/:regionId',
-		zValidator('param', z.object({ regionId: z.string() })),
+		'/:regionId/:from/:to',
+		zValidator(
+			'param',
+			z.object({
+				regionId: z.string(),
+				from: z.coerce.date(),
+				to: z.coerce.date()
+			})
+		),
 		clerkMiddleware(),
 		async (c) => {
 			const auth = getAuth(c)
-			const { regionId } = c.req.valid('param')
+			const { regionId, from, to } = c.req.valid('param')
 
 			if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
 
 			if (!regionId) return c.json({ error: 'Bad Request' }, 400)
 
-			const [regionData] = await db
-				.select({ id: regions.regionId, name: regions.regionName })
-				.from(regions)
-				.where(eq(regions.regionId, regionId))
+			const data = await db.query.regions.findFirst({
+				where: and(
+					eq(regions.regionId, regionId),
+					between(incidents.createdAt, from, to)
+				),
+				with: {
+					incidents: true
+				}
+			})
 
-			if (!regionData) return c.json({ error: 'Not Found' }, 404)
-
-			const incidentsData = await db
-				.select({
-					id: incidents.incidentId,
-					price: incidents.productPrice,
-					quantity: incidents.productQuantity,
-					name: incidents.productName
-				})
-				.from(incidents)
-				.where(eq(incidents.regionId, regionId))
-
-			const data = { ...regionData, incidentsData }
+			if (!data) return c.json({ error: 'Not Found' }, 404)
 
 			return c.json({ data })
 		}
@@ -122,6 +122,10 @@ const app = new Hono()
 					id: regions.regionId,
 					name: regions.regionName
 				})
+
+			if (!data) return c.json({ error: 'Not Found' }, 404)
+
+			return c.json({ data })
 		}
 	)
 

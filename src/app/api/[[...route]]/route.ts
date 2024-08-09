@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
 import incidents from './incidents'
+import overall from './overall'
 import regions from './regions'
 import stores from './stores'
 import storeSections from './storeSections'
@@ -13,6 +14,7 @@ const app = new Hono()
 	.route('/stores', stores)
 	.route('/storeSections', storeSections)
 	.route('/incidents', incidents)
+	.route('/overall', overall)
 
 export const GET = handle(app)
 export const POST = handle(app)

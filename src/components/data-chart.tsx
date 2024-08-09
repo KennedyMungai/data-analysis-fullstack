@@ -14,14 +14,23 @@ import {
 	ChartTooltipContent
 } from '@/components/ui/chart'
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { IncidentsSchema, incidentsSchema } from '../db/schema'
 
 type Props = {
 	label: string
 	data: {
-		id: string
-		price: number | null
-		quantity: number | null
-		name: string | null
+		regionId: string
+		createdAt: string
+		updatedAt: string | null
+		storeId: string
+		incidentId: string
+		incidentDescription: string
+		employeeName: string
+		productName: string | null
+		productCode: string | null
+		productQuantity: number | null
+		productPrice: number | null
+		storeSectionId: string
 	}[]
 }
 
