@@ -15,7 +15,7 @@ const AddRegionSheet = () => {
 	return (
 		<Sheet open={isOpen} onOpenChange={onClose}>
 			<SheetHeader>
-				<SheetTitle>Create a new region</SheetTitle>
+				<SheetTitle hidden>Create a new region</SheetTitle>
 			</SheetHeader>
 			<SheetContent aria-describedby='Create a new region'>
 				<AddRegionForm />
