@@ -2,6 +2,7 @@
 
 import TopBar from '@/components/top-bar'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useFetchRegion } from '@/features/regions/api/use-fetch-region'
 import { useFetchStores } from '@/features/stores/api/use-fetch-stores'
 import AddStoreCard from '@/features/stores/components/add-store-card'
@@ -23,9 +24,39 @@ const StoresPage = () => {
 		regionId
 	)
 
-	if (isPending) <div>Loading...</div>
+	if (isPending)
+		<div className='h-full'>
+			<TopBar title={'Stores'} />
+			<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+			</div>
+		</div>
 
-	if (isError) <div>Something went wrong</div>
+	if (isError)
+		<div className='h-full'>
+			<TopBar title={'Something went wrong'} />
+			<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+			</div>
+		</div>
 
 	return (
 		<>

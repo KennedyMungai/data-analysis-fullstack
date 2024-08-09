@@ -2,6 +2,7 @@
 
 import TopBar from '@/components/top-bar'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
 import { useFetchStoreSections } from '@/features/storeSections/api/use-fetch-store-sections'
 import AddStoreSectionCard from '@/features/storeSections/components/add-store-section-card'
@@ -28,9 +29,39 @@ const StoreSectionsPage = () => {
 		isPending: isStoreSectionPending
 	} = useFetchStoreSections(storeId)
 
-	if (isStorePending || isStoreSectionPending) <div>Loading...</div>
+	if (isStorePending || isStoreSectionPending)
+		<div className='h-full'>
+			<TopBar title={'Store Sections'} />
+			<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+			</div>
+		</div>
 
-	if (isStoreError || isStoreSectionError) <div>Something went wrong</div>
+	if (isStoreError || isStoreSectionError)
+		<div className='h-full'>
+			<TopBar title={'Something Went Wrong'} />
+			<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+			</div>
+		</div>
 
 	return (
 		<>
