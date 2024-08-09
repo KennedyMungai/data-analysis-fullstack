@@ -1,8 +1,8 @@
 import { db } from '@/db/drizzle'
-import { stores, storesSchema } from '@/db/schema'
+import { incidents, stores, storesSchema } from '@/db/schema'
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
 import { zValidator } from '@hono/zod-validator'
-import { and, eq } from 'drizzle-orm'
+import { and, between, eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 
@@ -26,19 +26,31 @@ const app = new Hono()
 		}
 	)
 	.get(
-		'/store/:storeId',
+		'/store/:storeId/:from/:to',
 		clerkMiddleware(),
-		zValidator('param', z.object({ storeId: z.string() })),
+		zValidator(
+			'param',
+			z.object({
+				storeId: z.string(),
+				from: z.coerce.date(),
+				to: z.coerce.date()
+			})
+		),
 		async (c) => {
 			const auth = getAuth(c)
-			const { storeId } = c.req.valid('param')
+			const { storeId, from, to } = c.req.valid('param')
 
 			if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
 
-			const [data] = await db
-				.select({ id: stores.storeId, name: stores.storeName })
-				.from(stores)
-				.where(eq(stores.storeId, storeId))
+			const data = await db.query.stores.findFirst({
+				where: and(
+					eq(stores.storeId, storeId),
+					between(incidents.createdAt, from, to)
+				),
+				with: {
+					incidents: true
+				}
+			})
 
 			if (!data) return c.json({ error: 'Not Found' }, 404)
 

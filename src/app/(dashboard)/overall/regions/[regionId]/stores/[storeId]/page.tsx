@@ -1,5 +1,6 @@
 'use client'
 
+import DataChart from '@/components/data-chart'
 import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
@@ -22,8 +23,6 @@ const StorePage = ({ params: { storeId } }: Props) => {
 
 	const regionId = pathname.split('/')[3]
 
-	const { data: store, isError, isPending } = useFetchStore(storeId)
-
 	const initialRange: DateRange = {
 		from: subDays(new Date(), 7),
 		to: new Date()
@@ -31,13 +30,19 @@ const StorePage = ({ params: { storeId } }: Props) => {
 
 	const [range, setRange] = useState<DateRange | undefined>(initialRange)
 
+	const {
+		data: store,
+		isError,
+		isPending
+	} = useFetchStore(range as DateRange, storeId)
+
 	if (isPending) <div>Loading...</div>
 
 	if (isError) <div>Something went wrong</div>
 
 	return (
 		<div className='w-full'>
-			<TopBar title={store?.name} />
+			<TopBar title={store?.storeName} />
 			<div className='gap-y-4 flex flex-col flex-1 p-2'>
 				<div className='flex justify-between px-4'>
 					<DateFilter range={range} setRange={setRange} />
@@ -56,7 +61,11 @@ const StorePage = ({ params: { storeId } }: Props) => {
 					<SummaryCard label='Overall' value={10} />
 					<SummaryCard label='Overall' value={10} />
 				</div>
-				{/* TODO: Add Charts for the data */}
+				<DataChart
+					label={`${store?.storeName} Incidents`}
+					data={[]}
+					range={range as DateRange}
+				/>
 			</div>
 		</div>
 	)

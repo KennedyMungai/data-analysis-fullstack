@@ -7,6 +7,7 @@ import { useFetchStoreSections } from '@/features/storeSections/api/use-fetch-st
 import AddStoreSectionCard from '@/features/storeSections/components/add-store-section-card'
 import AddStoreSectionSheet from '@/features/storeSections/components/add-store-section-sheet'
 import StoreSectionCard from '@/features/storeSections/components/store-section-card'
+import { subDays } from 'date-fns'
 import { usePathname } from 'next/navigation'
 
 const StoreSectionsPage = () => {
@@ -19,7 +20,7 @@ const StoreSectionsPage = () => {
 		data: store,
 		isError: isStoreError,
 		isPending: isStorePending
-	} = useFetchStore(storeId)
+	} = useFetchStore({ from: subDays(new Date(), 7) }, storeId)
 
 	const {
 		data: storeSections,
@@ -35,7 +36,7 @@ const StoreSectionsPage = () => {
 		<>
 			<div className='w-full'>
 				{/* TODO: Add specific region name */}
-				<TopBar title={`${store?.name} Store Sections`} />
+				<TopBar title={`${store?.storeName} Store Sections`} />
 				<div className='h-[90vh] p-4'>
 					<ScrollArea className='h-full'>
 						<div className='flex flex-wrap items-center justify-center h-full gap-4'>

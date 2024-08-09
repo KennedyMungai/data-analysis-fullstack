@@ -50,7 +50,7 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 		data: store,
 		isPending: isStorePending,
 		isError: isStoreError
-	} = useFetchStore(storeId)
+	} = useFetchStore(range as DateRange, storeId)
 
 	const {
 		data: incidents,
@@ -58,15 +58,21 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 		isPending: isIncidentPending
 	} = useFetchIncidents(storeSectionId)
 
-	if (isStoreSectionPending || isStorePending) <div>Loading...</div>
+	if (isStoreSectionPending || isStorePending || isIncidentPending)
+		<div>Loading...</div>
 
-	if (isStoreSectionError || isStoreError || isSignedIn === false)
+	if (
+		isStoreSectionError ||
+		isStoreError ||
+		isIncidentError ||
+		isSignedIn === false
+	)
 		<div>Something went wrong</div>
 
 	return (
 		<>
 			<div className='w-full'>
-				<TopBar title={`${store?.name} ${storeSection?.name}`} />
+				<TopBar title={`${store?.storeName} ${storeSection?.name}`} />
 				<div className='gap-y-4 flex flex-col flex-1 p-2'>
 					<div className='flex justify-between px-4'>
 						<DateFilter range={range} setRange={setRange} />
