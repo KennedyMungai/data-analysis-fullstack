@@ -21,10 +21,10 @@ const app = new Hono()
 			if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
 
 			const data = await db.query.regions.findMany({
-				where: between(incidents.createdAt, from, to),
 				with: {
 					incidents: true
-				}
+				},
+				where: between(incidents.createdAt, from, to)
 			})
 
 			return c.json({ data })
@@ -50,13 +50,13 @@ const app = new Hono()
 			if (!regionId) return c.json({ error: 'Bad Request' }, 400)
 
 			const data = await db.query.regions.findFirst({
+				with: {
+					incidents: true
+				},
 				where: and(
 					eq(regions.regionId, regionId),
 					between(incidents.createdAt, from, to)
-				),
-				with: {
-					incidents: true
-				}
+				)
 			})
 
 			if (!data) return c.json({ error: 'Not Found' }, 404)
