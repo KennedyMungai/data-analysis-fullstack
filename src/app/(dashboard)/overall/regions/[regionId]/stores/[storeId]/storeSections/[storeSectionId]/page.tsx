@@ -148,7 +148,7 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 							value={Math.floor(totalValue / totalIncidents)}
 						/>
 					</div>
-					<DataTable columns={columns} data={incidents!} />
+					{/* <DataTable columns={columns} data={incidents!} /> */}
 				</div>
 			</div>
 			<SignedIn>
@@ -156,7 +156,7 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 					regionId={regionId}
 					storeId={storeId}
 					storeSectionId={storeSectionId}
-					employeeName={user!.fullName!}
+					employeeName={user?.fullName ?? ''}
 				/>
 			</SignedIn>
 		</>
