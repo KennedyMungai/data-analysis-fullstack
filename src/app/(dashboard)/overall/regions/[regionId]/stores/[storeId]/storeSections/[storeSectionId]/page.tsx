@@ -7,8 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useFetchIncidents } from '@/features/incidents/api/use-fetch-incidents'
 import AddIncidentModal from '@/features/incidents/components/add-incident-modal'
-import { columns } from '@/features/incidents/components/columns'
-import { DataTable } from '@/features/incidents/components/data-table'
+import { columns } from '@/app/(dashboard)/overall/regions/[regionId]/stores/[storeId]/storeSections/[storeSectionId]/_components/columns'
 import { useNewIncidentState } from '@/features/incidents/hooks/use-new-incident-state'
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
 import { useFetchStoreSection } from '@/features/storeSections/api/use-fetch-store-section'
@@ -17,6 +16,7 @@ import { subDays } from 'date-fns'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
+import { DataTable } from './_components/data-table'
 
 type Props = {
 	params: {
