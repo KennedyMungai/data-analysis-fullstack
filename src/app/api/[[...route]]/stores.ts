@@ -56,6 +56,13 @@ const app = new Hono()
 			const data = await db.query.stores.findFirst({
 				where: and(eq(stores.storeId, storeId)),
 				with: {
+					storeSections: {
+						with: {
+							incidents: {
+								where: between(incidents.createdAt, from, to)
+							}
+						}
+					},
 					incidents: {
 						where: between(incidents.createdAt, from, to)
 					}

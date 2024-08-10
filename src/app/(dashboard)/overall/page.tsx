@@ -80,6 +80,17 @@ const OverallPage = () => {
 		0
 	) as number
 
+	const chartData = regions?.map((region) => ({
+		label: region.regionName,
+		value: region.incidents.reduce(
+			(total: number, incident) =>
+				total +
+				Number(incident.productQuantity) *
+					Number(incident.productPrice),
+			0
+		)
+	}))
+
 	return (
 		<div className='w-full'>
 			<TopBar title='Overall' />
@@ -109,7 +120,7 @@ const OverallPage = () => {
 				</div>
 				<DataChart
 					label={'Overall Data'}
-					data={[]}
+					data={chartData!}
 					range={range as DateRange}
 				/>
 			</div>

@@ -13,26 +13,12 @@ import {
 	ChartTooltip,
 	ChartTooltipContent
 } from '@/components/ui/chart'
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-import { IncidentsSchema, incidentsSchema } from '../db/schema'
 import { DateRange } from 'react-day-picker'
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 
 type Props = {
 	label: string
-	data: {
-		regionId: string
-		createdAt: string
-		updatedAt: string | null
-		storeId: string
-		incidentId: string
-		incidentDescription: string
-		employeeName: string
-		productName: string | null
-		productCode: string | null
-		productQuantity: number | null
-		productPrice: number | null
-		storeSectionId: string
-	}[]
+	data: { label: string; value: number }[]
 	range: DateRange
 }
 
@@ -57,7 +43,7 @@ const DataChart = ({ label, data, range }: Props) => {
 						margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
 					>
 						<CartesianGrid strokeDasharray={'3 3'} />
-						<XAxis dataKey={'className'} fill='blue' />
+						<XAxis dataKey={'label'} fill='blue' />
 						<YAxis dataKey={'value'} />
 						<ChartTooltip
 							cursor={false}

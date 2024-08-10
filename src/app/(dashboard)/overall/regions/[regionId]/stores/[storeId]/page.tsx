@@ -99,6 +99,23 @@ const StorePage = ({ params: { storeId } }: Props) => {
 
 		const totalIncidents: number = numOfIncidents()
 
+		const chartData = store?.storeSections.map((storeSection) => ({
+			label: storeSection.storeSectionName,
+			value: storeSection.incidents.reduce((total, incident) => {
+				if (
+					incident.productPrice === null ||
+					incident.productQuantity === null
+				)
+					return 0
+
+				return (
+					total +
+					Number(incident.productQuantity) *
+						Number(incident.productPrice)
+				)
+			}, 0)
+		}))
+
 		return (
 			<div className='w-full'>
 				<TopBar title={store?.storeName} />
@@ -134,7 +151,7 @@ const StorePage = ({ params: { storeId } }: Props) => {
 					</div>
 					<DataChart
 						label={`${store?.storeName} Incidents`}
-						data={[]}
+						data={chartData!}
 						range={range as DateRange}
 					/>
 				</div>

@@ -57,6 +57,16 @@ const app = new Hono()
 							eq(regions.regionId, regionId),
 							between(incidents.createdAt, from, to)
 						)
+					},
+					stores: {
+						with: {
+							incidents: {
+								where: and(
+									eq(regions.regionId, regionId),
+									between(incidents.createdAt, from, to)
+								)
+							}
+						}
 					}
 				},
 				where: and(eq(regions.regionId, regionId))

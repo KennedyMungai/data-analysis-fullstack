@@ -83,6 +83,19 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 
 	const totalIncidents = region.incidents.length
 
+	const chartData = region.stores.map((store) => ({
+		label: store.storeName,
+		value: store.incidents.reduce(
+			(total: number, incident) =>
+				total +
+				Number(incident.productQuantity) *
+					Number(incident.productPrice),
+			0
+		)
+	}))
+
+	console.log('Chart Data', chartData)
+
 	return (
 		<div className='w-full'>
 			<TopBar title={region.regionName} />
@@ -113,7 +126,7 @@ const RegionPage = ({ params: { regionId } }: Props) => {
 				</div>
 				<DataChart
 					label={`${region.regionName} Incidents`}
-					data={region.incidents}
+					data={chartData!}
 					range={range as DateRange}
 				/>
 			</div>
