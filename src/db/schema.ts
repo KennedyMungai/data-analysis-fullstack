@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm'
-import { integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import {
+	integer,
+	pgTable,
+	text,
+	timestamp,
+	uuid,
+	varchar
+} from 'drizzle-orm/pg-core'
 import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
@@ -20,7 +27,7 @@ export type RegionsSchema = z.infer<typeof regionsSchema>
 
 export const stores = pgTable('stores', {
 	storeId: uuid('store_id').defaultRandom().primaryKey(),
-	storeName: text('store_name').notNull(),
+	storeName: varchar('store_name', { length: 256 }).notNull(),
 	// TODO: Find a way to store location data in the database
 	// storeLocation: point('store_location'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -45,7 +52,7 @@ export type StoresSchema = z.infer<typeof storesSchema>
 
 export const storeSections = pgTable('store_sections', {
 	storeSectionId: uuid('store_section_id').defaultRandom().primaryKey(),
-	storeSectionName: text('store_section_name').notNull(),
+	storeSectionName: varchar('store_section_name', { length: 256 }).notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').$onUpdateFn(() => new Date()),
 
@@ -71,9 +78,9 @@ export type StoreSectionsSchema = z.infer<typeof storeSectionsSchema>
 export const incidents = pgTable('incidents', {
 	incidentId: uuid('incident_id').defaultRandom().primaryKey(),
 	incidentDescription: text('incident_description').notNull(),
-	employeeName: text('employee_name').notNull(),
-	productName: text('product_name'),
-	productCode: text('product_code'),
+	employeeName: varchar('employee_name', { length: 256 }).notNull(),
+	productName: varchar('product_name', { length: 256 }),
+	productCode: varchar('product_code', { length: 256 }),
 	productQuantity: integer('product_quantity'),
 	productPrice: integer('product_price'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
