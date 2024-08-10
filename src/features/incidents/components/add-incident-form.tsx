@@ -20,7 +20,7 @@ type Props = {
 	regionId: string
 	storeId: string
 	storeSectionId: string
-	employeeName: string
+	employeeName: string | undefined
 }
 
 const formSchema = incidentsSchema.omit({
@@ -78,76 +78,6 @@ const AddIncidentForm = ({
 				onSubmit={form.handleSubmit(handleSubmit)}
 				className='flex flex-col gap-y-2'
 			>
-				<FormField
-					name='incidentDescription'
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Incident Description</FormLabel>
-							<FormDescription>
-								A descriptive account of the incident
-							</FormDescription>
-							<Textarea {...field} className='mt-2' />
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name='productCode'
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Product Code</FormLabel>
-							<FormDescription>
-								The product code of the item involved
-							</FormDescription>
-							<Input {...field} />
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name='productName'
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Product Name</FormLabel>
-							<FormDescription>
-								The name of the item involved
-							</FormDescription>
-							<Input {...field} />
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name='productQuantity'
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Product Quantity</FormLabel>
-							<FormDescription>
-								The quantity of the item
-							</FormDescription>
-							<Input type='number' {...field} />
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name='productPrice'
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Product Price</FormLabel>
-							<FormDescription>
-								The price of the item
-							</FormDescription>
-							<Input {...field} type='number' />
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
 				<Button className='self-end mt-6' disabled={isPending}>
 					Report Incident
 				</Button>

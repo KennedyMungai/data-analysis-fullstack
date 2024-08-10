@@ -12,7 +12,7 @@ type Props = {
 	regionId: string
 	storeId: string
 	storeSectionId: string
-	employeeName: string
+	employeeName: string | undefined
 }
 
 const AddIncidentModal = ({

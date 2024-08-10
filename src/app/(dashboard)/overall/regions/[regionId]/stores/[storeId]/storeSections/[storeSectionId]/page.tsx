@@ -11,7 +11,7 @@ import AddIncidentModal from '@/features/incidents/components/add-incident-modal
 import { useNewIncidentState } from '@/features/incidents/hooks/use-new-incident-state'
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
 import { useFetchStoreSection } from '@/features/storeSections/api/use-fetch-store-section'
-import { useUser } from '@clerk/nextjs'
+import { SignedIn, useUser } from '@clerk/nextjs'
 import { subDays } from 'date-fns'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
@@ -148,15 +148,17 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 							value={Math.floor(totalValue / totalIncidents)}
 						/>
 					</div>
-					<DataTable columns={columns} data={incidents} />
+					<DataTable columns={columns} data={incidents!} />
 				</div>
 			</div>
-			<AddIncidentModal
-				regionId={regionId}
-				storeId={storeId}
-				storeSectionId={storeSectionId}
-				employeeName={user!.fullName!}
-			/>
+			<SignedIn>
+				<AddIncidentModal
+					regionId={regionId}
+					storeId={storeId}
+					storeSectionId={storeSectionId}
+					employeeName={user!.fullName!}
+				/>
+			</SignedIn>
 		</>
 	)
 }

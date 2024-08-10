@@ -7,7 +7,7 @@ export type IncidentColumns = {
 	employee: string
 }
 
-export const columns: ColumnDef<IncidentColumns> = [
+export const columns: ColumnDef<IncidentColumns>[] = [
 	{
 		accessorKey: 'description',
 		header: 'Description'
