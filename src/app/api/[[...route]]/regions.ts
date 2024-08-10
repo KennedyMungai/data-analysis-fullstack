@@ -22,9 +22,10 @@ const app = new Hono()
 
 			const data = await db.query.regions.findMany({
 				with: {
-					incidents: true
-				},
-				where: between(incidents.createdAt, from, to)
+					incidents: {
+						where: between(incidents.createdAt, from, to)
+					}
+				}
 			})
 
 			return c.json({ data })
@@ -51,12 +52,14 @@ const app = new Hono()
 
 			const data = await db.query.regions.findFirst({
 				with: {
-					incidents: true
+					incidents: {
+						where: and(
+							eq(regions.regionId, regionId),
+							between(incidents.createdAt, from, to)
+						)
+					}
 				},
-				where: and(
-					eq(regions.regionId, regionId),
-					between(incidents.createdAt, from, to)
-				)
+				where: and(eq(regions.regionId, regionId))
 			})
 
 			if (!data) return c.json({ error: 'Not Found' }, 404)
