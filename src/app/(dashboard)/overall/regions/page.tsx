@@ -21,7 +21,7 @@ const Regions = () => {
 	if (isError) {
 		return (
 			<div className='h-full'>
-				<TopBar title={'Something Went Wrong'} />
+				<TopBar title={'Loading...'} />
 				<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
 					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
 					<Skeleton className='shadow-md w-64 min-h-72 p-2' />

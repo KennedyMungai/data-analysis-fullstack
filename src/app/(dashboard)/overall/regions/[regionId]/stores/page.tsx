@@ -51,8 +51,8 @@ const StoresPage = () => {
 		</div>
 
 	if (isError)
-		<div className='h-full'>
-			<TopBar title={'Something went wrong'} />
+		;<div className='h-full'>
+			<TopBar title={'Loading...'} />
 			<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
 				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
 				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
