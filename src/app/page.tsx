@@ -15,7 +15,7 @@ const HomePage = () => {
 						height={120}
 						className='bg-white/20 rounded-lg'
 					/>
-					<p className='text-4xl font-bold dark:text-white hover:dark:text-black text-white'>
+					<p className='text-4xl font-bold dark:text-white text-white'>
 						Data Analysis
 					</p>
 				</div>
