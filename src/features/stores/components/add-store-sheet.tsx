@@ -19,7 +19,7 @@ const AddStoreSheet = ({ regionId }: Props) => {
 	return (
 		<Sheet open={isOpen} onOpenChange={onClose}>
 			<SheetHeader>
-				<SheetTitle>Create a new store</SheetTitle>
+				<SheetTitle hidden>Create a new store</SheetTitle>
 			</SheetHeader>
 			<SheetContent aria-describedby='Create a new store'>
 				<AddStoreForm regionId={regionId} />
