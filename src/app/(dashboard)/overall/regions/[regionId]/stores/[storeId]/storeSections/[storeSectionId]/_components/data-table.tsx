@@ -4,8 +4,11 @@ import {
 	ColumnDef,
 	flexRender,
 	getCoreRowModel,
+	HeaderGroup,
+	Row,
 	useReactTable
 } from '@tanstack/react-table'
+
 import {
 	Table,
 	TableBody,
@@ -15,15 +18,15 @@ import {
 	TableRow
 } from '@/components/ui/table'
 
-interface DataTableProps<TData, TValue> {
-	columns: ColumnDef<TData, TValue>[]
+interface DataTableProps<TData> {
+	columns: ColumnDef<TData, any>[]
 	data: TData[]
 }
 
-export const DataTable = <TData, TValue>({
+export function DataTable<TData extends object>({
 	columns,
 	data
-}: DataTableProps<TData, TValue>) => {
+}: DataTableProps<TData>) {
 	const table = useReactTable({
 		data,
 		columns,
@@ -34,10 +37,11 @@ export const DataTable = <TData, TValue>({
 		<div className='rounded-md border'>
 			<Table>
 				<TableHeader>
-					{table.getHeaderGroups().map((headerGroup) => (
-						<TableRow key={headerGroup.id}>
-							{headerGroup.headers.map((header) => {
-								return (
+					{table
+						.getHeaderGroups()
+						.map((headerGroup: HeaderGroup<TData>) => (
+							<TableRow key={headerGroup.id}>
+								{headerGroup.headers.map((header) => (
 									<TableHead key={header.id}>
 										{header.isPlaceholder
 											? null
@@ -47,17 +51,18 @@ export const DataTable = <TData, TValue>({
 													header.getContext()
 											  )}
 									</TableHead>
-								)
-							})}
-						</TableRow>
-					))}
+								))}
+							</TableRow>
+						))}
 				</TableHeader>
 				<TableBody>
-					{table.getRowModel().rows?.length ? (
-						table.getRowModel().rows.map((row) => (
+					{table.getRowModel().rows.length > 0 ? (
+						table.getRowModel().rows.map((row: Row<TData>) => (
 							<TableRow
 								key={row.id}
-								data-state={row.getIsSelected() && 'selected'}
+								data-state={
+									row.getIsSelected() ? 'selected' : undefined
+								}
 							>
 								{row.getVisibleCells().map((cell) => (
 									<TableCell key={cell.id}>
