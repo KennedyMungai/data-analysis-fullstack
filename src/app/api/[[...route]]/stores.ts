@@ -8,19 +8,30 @@ import { z } from 'zod'
 
 const app = new Hono()
 	.get(
-		'/:regionId',
+		'/:regionId/:from/:to',
 		clerkMiddleware(),
-		zValidator('param', z.object({ regionId: z.string() })),
+		zValidator(
+			'param',
+			z.object({
+				regionId: z.string(),
+				from: z.coerce.date(),
+				to: z.coerce.date()
+			})
+		),
 		async (c) => {
 			const auth = getAuth(c)
-			const { regionId } = c.req.valid('param')
+			const { regionId, from, to } = c.req.valid('param')
 
 			if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
 
-			const data = await db
-				.select({ id: stores.storeId, name: stores.storeName })
-				.from(stores)
-				.where(eq(stores.regionId, regionId))
+			const data = await db.query.stores.findMany({
+				where: eq(stores.regionId, regionId),
+				with: {
+					incidents: {
+						where: between(incidents.createdAt, from, to)
+					}
+				}
+			})
 
 			return c.json({ data })
 		}
@@ -43,12 +54,11 @@ const app = new Hono()
 			if (!auth?.userId) return c.json({ error: 'Unauthorized' }, 401)
 
 			const data = await db.query.stores.findFirst({
-				where: and(
-					eq(stores.storeId, storeId),
-					between(incidents.createdAt, from, to)
-				),
+				where: and(eq(stores.storeId, storeId)),
 				with: {
-					incidents: true
+					incidents: {
+						where: between(incidents.createdAt, from, to)
+					}
 				}
 			})
 
