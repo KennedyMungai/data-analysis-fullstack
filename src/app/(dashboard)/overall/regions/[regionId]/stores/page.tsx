@@ -10,7 +10,6 @@ import AddStoreSheet from '@/features/stores/components/add-store-sheet'
 import StoreCard from '@/features/stores/components/store-card'
 import { subDays } from 'date-fns'
 import { usePathname } from 'next/navigation'
-import { DateRange } from 'react-day-picker'
 
 type Props = {}
 
@@ -33,39 +32,45 @@ const StoresPage = () => {
 		regionId
 	)
 
-	if (isPending)
-		<div className='h-full'>
-			<TopBar title={'Stores'} />
-			<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+	if (isPending) {
+		return (
+			<div className='h-full'>
+				<TopBar title={'Stores'} />
+				<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				</div>
 			</div>
-		</div>
+		)
+	}
 
-	if (isError)
-		;<div className='h-full'>
-			<TopBar title={'Loading...'} />
-			<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
-				<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+	if (isError) {
+		return (
+			<div className='h-full'>
+				<TopBar title={'Loading...'} />
+				<div className='flex flex-wrap items-center justify-center h-full p-4 gap-4'>
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+					<Skeleton className='shadow-md w-64 min-h-72 p-2' />
+				</div>
 			</div>
-		</div>
+		)
+	}
 
 	return (
 		<>
