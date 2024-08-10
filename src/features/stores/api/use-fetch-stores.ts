@@ -1,13 +1,20 @@
 import { client } from '@/lib/hono'
 import { useQuery } from '@tanstack/react-query'
+import { DateRange } from 'react-day-picker'
 
-export const useFetchStores = (regionId?: string) =>
+export const useFetchStores = (range: DateRange, regionId?: string) =>
 	useQuery({
-		enabled: !!regionId,
+		enabled: !!regionId && !!range,
 		queryKey: ['stores'],
 		queryFn: async () => {
-			const response = await client.api.stores[':regionId'].$get({
-				param: { regionId }
+			const response = await client.api.stores[':regionId'][':from'][
+				':to'
+			].$get({
+				param: {
+					regionId,
+					from: range.from!.toISOString(),
+					to: range.to!.toISOString()
+				}
 			})
 
 			if (!response.ok) throw new Error('Failed to fetch the stores')

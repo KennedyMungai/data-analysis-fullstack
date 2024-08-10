@@ -10,6 +10,7 @@ import AddStoreSheet from '@/features/stores/components/add-store-sheet'
 import StoreCard from '@/features/stores/components/store-card'
 import { subDays } from 'date-fns'
 import { usePathname } from 'next/navigation'
+import { DateRange } from 'react-day-picker'
 
 type Props = {}
 
@@ -18,9 +19,17 @@ const StoresPage = () => {
 
 	const regionId = pathname.split('/')[3]
 
-	const { data: stores, isPending, isError } = useFetchStores(regionId)
 	const { data: region } = useFetchRegion(
-		{ from: subDays(new Date(), 7) },
+		{ from: subDays(new Date(), 7), to: new Date() },
+		regionId
+	)
+
+	const {
+		data: stores,
+		isPending,
+		isError
+	} = useFetchStores(
+		{ from: subDays(new Date(), 7), to: new Date() },
 		regionId
 	)
 
@@ -68,10 +77,10 @@ const StoresPage = () => {
 						<div className='flex flex-wrap items-center justify-center h-full gap-4'>
 							{stores?.map((store) => (
 								<StoreCard
-									key={store.id}
-									title={store.name}
+									key={store.storeId}
+									title={store.storeName}
 									regionId={regionId}
-									storeId={store.id}
+									storeId={store.storeId}
 								/>
 							))}
 							<AddStoreCard />

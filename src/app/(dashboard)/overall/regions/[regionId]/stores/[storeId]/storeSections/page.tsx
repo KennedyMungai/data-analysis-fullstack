@@ -27,7 +27,10 @@ const StoreSectionsPage = () => {
 		data: storeSections,
 		isError: isStoreSectionError,
 		isPending: isStoreSectionPending
-	} = useFetchStoreSections(storeId)
+	} = useFetchStoreSections(
+		{ from: subDays(new Date(), 7), to: new Date() },
+		storeId
+	)
 
 	if (isStorePending || isStoreSectionPending)
 		<div className='h-full'>
@@ -73,11 +76,11 @@ const StoreSectionsPage = () => {
 						<div className='flex flex-wrap items-center justify-center h-full gap-4'>
 							{storeSections?.map((storeSection) => (
 								<StoreSectionCard
-									key={storeSection.id}
-									title={storeSection.name}
+									key={storeSection.storeSectionId}
+									title={storeSection.storeSectionName}
 									regionId={regionId}
 									storeId={storeId}
-									storeSectionId={storeSection.id}
+									storeSectionId={storeSection.storeSectionId}
 								/>
 							))}
 							<AddStoreSectionCard />
