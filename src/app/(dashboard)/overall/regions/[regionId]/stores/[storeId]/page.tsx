@@ -73,35 +73,63 @@ const StorePage = ({ params: { storeId } }: Props) => {
 			</div>
 		</div>
 
-	return (
-		<div className='w-full'>
-			<TopBar title={store?.storeName} />
-			<div className='gap-y-4 flex flex-col flex-1 p-2'>
-				<div className='flex justify-between px-4'>
-					<DateFilter range={range} setRange={setRange} />
-					<Link
-						href={`/overall/regions/${regionId}/stores/${storeId}/storeSections`}
-					>
-						<Button variant={'outline'} className='bg-transparent'>
-							Stores Sections
-						</Button>
-					</Link>
+		const totalValue = store?.incidents.reduce((total, incident) => {
+			if (
+				incident.productPrice === null ||
+				incident.productQuantity === null
+			)
+				return 0
 
-					<div />
+			return (
+				total +
+				Number(incident.productQuantity) * Number(incident.productPrice)
+			)
+		}, 0) as number
+
+		const totalIncidents: number =
+			store!.incidents.length === null ? 0 : store!.incidents.length
+
+		return (
+			<div className='w-full'>
+				<TopBar title={store?.storeName} />
+				<div className='gap-y-4 flex flex-col flex-1 p-2'>
+					<div className='flex justify-between px-4'>
+						<DateFilter range={range} setRange={setRange} />
+						<Link
+							href={`/overall/regions/${regionId}/stores/${storeId}/storeSections`}
+						>
+							<Button
+								variant={'outline'}
+								className='bg-transparent'
+							>
+								Stores Sections
+							</Button>
+						</Link>
+
+						<div />
+					</div>
+					<div className='flex justify-between w-full'>
+						<SummaryCard
+							label='Total Value of Incidents'
+							value={totalValue}
+						/>
+						<SummaryCard
+							label='Total No. Of Incidents'
+							value={totalIncidents}
+						/>
+						<SummaryCard
+							label='Average Value of Incidents'
+							value={Math.floor(totalValue / totalIncidents)}
+						/>
+					</div>
+					<DataChart
+						label={`${store?.storeName} Incidents`}
+						data={[]}
+						range={range as DateRange}
+					/>
 				</div>
-				<div className='flex justify-between w-full'>
-					<SummaryCard label='Overall' value={10} />
-					<SummaryCard label='Overall' value={10} />
-					<SummaryCard label='Overall' value={10} />
-				</div>
-				<DataChart
-					label={`${store?.storeName} Incidents`}
-					data={[]}
-					range={range as DateRange}
-				/>
 			</div>
-		</div>
-	)
+		)
 }
 
 export default StorePage
