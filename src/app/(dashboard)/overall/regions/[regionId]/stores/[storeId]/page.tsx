@@ -86,8 +86,18 @@ const StorePage = ({ params: { storeId } }: Props) => {
 			)
 		}, 0) as number
 
-		const totalIncidents: number =
-			store!.incidents.length === null ? 0 : store!.incidents.length
+		const numOfIncidents = () => {
+			if (
+				store?.incidents.length === 0 ||
+				store?.incidents === undefined ||
+				store?.incidents === null
+			)
+				return 0
+
+			return store?.incidents.length
+		}
+
+		const totalIncidents: number = numOfIncidents()
 
 		return (
 			<div className='w-full'>
