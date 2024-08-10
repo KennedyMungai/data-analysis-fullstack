@@ -1,5 +1,6 @@
 'use client'
 
+import { columns } from '@/app/(dashboard)/overall/regions/[regionId]/stores/[storeId]/storeSections/[storeSectionId]/_components/columns'
 import DateFilter from '@/components/date-filter'
 import SummaryCard from '@/components/summary-card'
 import TopBar from '@/components/top-bar'
@@ -7,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useFetchIncidents } from '@/features/incidents/api/use-fetch-incidents'
 import AddIncidentModal from '@/features/incidents/components/add-incident-modal'
-import { columns } from '@/app/(dashboard)/overall/regions/[regionId]/stores/[storeId]/storeSections/[storeSectionId]/_components/columns'
 import { useNewIncidentState } from '@/features/incidents/hooks/use-new-incident-state'
 import { useFetchStore } from '@/features/stores/api/use-fetch-store'
 import { useFetchStoreSection } from '@/features/storeSections/api/use-fetch-store-section'
@@ -45,7 +45,7 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 		data: storeSection,
 		isError: isStoreSectionError,
 		isPending: isStoreSectionPending
-	} = useFetchStoreSection(storeSectionId)
+	} = useFetchStoreSection(range as DateRange, storeSectionId)
 
 	const {
 		data: store,
@@ -59,32 +59,9 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 		isPending: isIncidentPending
 	} = useFetchIncidents(storeSectionId)
 
-	if (isStoreSectionPending || isStorePending || isIncidentPending);
-	;<div className='w-full'>
-		<TopBar title='Loading...' />
-		<div className='gap-y-4 flex flex-col flex-1 p-2'>
-			<div className='flex justify-between px-4'>
-				<Skeleton className='w-24 h-8' />
-				<Skeleton className='w-24 h-8' />
-				<div />
-			</div>
-			<div className='flex justify-between w-full'>
-				<Skeleton className='w-[25rem] h-[10rem]' />
-				<Skeleton className='w-[25rem] h-[10rem]' />
-				<Skeleton className='w-[25rem] h-[10rem]' />
-			</div>
-			<Skeleton className='w-full h-[60vh] mt-4' />
-		</div>
-	</div>
-
-	if (
-		isStoreSectionError ||
-		isStoreError ||
-		isIncidentError ||
-		isSignedIn === false
-	)
-		;<div className='w-full'>
-			<TopBar title='Failed to fetch data' />
+	if (isStoreSectionPending || isStorePending || isIncidentPending)
+		<div className='w-full'>
+			<TopBar title='Loading...' />
 			<div className='gap-y-4 flex flex-col flex-1 p-2'>
 				<div className='flex justify-between px-4'>
 					<Skeleton className='w-24 h-8' />
@@ -100,10 +77,50 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 			</div>
 		</div>
 
+	if (
+		isStoreSectionError ||
+		isStoreError ||
+		isIncidentError ||
+		isSignedIn === false
+	) {
+		return (
+			<div className='w-full'>
+				<TopBar title='Failed to fetch data' />
+				<div className='gap-y-4 flex flex-col flex-1 p-2'>
+					<div className='flex justify-between px-4'>
+						<Skeleton className='w-24 h-8' />
+						<Skeleton className='w-24 h-8' />
+						<div />
+					</div>
+					<div className='flex justify-between w-full'>
+						<Skeleton className='w-[25rem] h-[10rem]' />
+						<Skeleton className='w-[25rem] h-[10rem]' />
+						<Skeleton className='w-[25rem] h-[10rem]' />
+					</div>
+					<Skeleton className='w-full h-[60vh] mt-4' />
+				</div>
+			</div>
+		)
+	}
+
+	const totalValue = storeSection?.incidents?.reduce((total, incident) => {
+		if (incident.productPrice === null || incident.productQuantity === null)
+			return 0
+
+		return (
+			total +
+			Number(incident.productQuantity) * Number(incident.productPrice)
+		)
+	}, 0) as number
+
+	const totalIncidents = storeSection?.incidents?.length as number
+
 	return (
 		<>
 			<div className='w-full'>
-				<TopBar title={`${store?.storeName} ${storeSection?.name}`} />
+				<TopBar
+					title={`${store?.storeName} ${storeSection?.storeSectionName}`}
+				/>
 				<div className='gap-y-4 flex flex-col flex-1 p-2'>
 					<div className='flex justify-between px-4'>
 						<DateFilter range={range} setRange={setRange} />
@@ -118,9 +135,18 @@ const StoreSectionPage = ({ params: { storeSectionId } }: Props) => {
 						<div />
 					</div>
 					<div className='flex justify-between w-full'>
-						<SummaryCard label='Overall' value={10} />
-						<SummaryCard label='Overall' value={10} />
-						<SummaryCard label='Overall' value={10} />
+						<SummaryCard
+							label='Total Value of Incidents'
+							value={totalValue}
+						/>
+						<SummaryCard
+							label='Total No. Of Incidents'
+							value={totalIncidents}
+						/>
+						<SummaryCard
+							label='Average Value of Incidents'
+							value={Math.floor(totalValue / totalIncidents)}
+						/>
 					</div>
 					<DataTable columns={columns} data={incidents} />
 				</div>

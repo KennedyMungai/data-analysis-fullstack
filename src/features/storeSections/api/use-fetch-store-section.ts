@@ -1,15 +1,23 @@
 import { client } from '@/lib/hono'
 import { useQuery } from '@tanstack/react-query'
+import { DateRange } from 'react-day-picker'
 
-export const useFetchStoreSection = (storeSectionId?: string) =>
+export const useFetchStoreSection = (
+	range: DateRange,
+	storeSectionId?: string
+) =>
 	useQuery({
-		enabled: !!storeSectionId,
+		enabled: !!storeSectionId && !!range,
 		queryKey: ['storeSection', { storeSectionId }],
 		queryFn: async () => {
 			const response = await client.api.storeSections.storeSection[
 				':storeSectionId'
-			].$get({
-				param: { storeSectionId }
+			][':from'][':to'].$get({
+				param: {
+					storeSectionId,
+					from: range.from!.toISOString(),
+					to: range.to!.toISOString()
+				}
 			})
 
 			if (!response.ok)
